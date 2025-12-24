@@ -1,42 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:pytl_backup/presentation/error_screen/error_screen.dart';
-import 'package:pytl_backup/presentation/login_screen/login_screen.dart';
-import 'package:pytl_backup/presentation/navigation_screen/navigation_screen.dart';
-import 'package:pytl_backup/presentation/start_screen/wait_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pytl_backup/domain/services/cache_service.dart';
+import 'package:pytl_backup/presentation/auth/login_screen/login_screen.dart';
+import 'package:pytl_backup/presentation/user/navigation/navigation_screen/navigation_screen.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
 
-  Future<bool> checkSign() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //await prefs.clear();
+  bool checkSign() {
+    final prefs = CacheService.instance;
     return prefs.getString("email")?.isNotEmpty ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: checkSign(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return WaitScreen();
-        }
-
-        if (snapshot.hasData) {
-          if (snapshot.data!) {
-            return const NavigationScreen();
-          } else {
-            return const LoginScreen();
-          }
-        }
-
-        if (snapshot.hasError) {
-          return ErrorScreen();
-        }
-
-        return const LoginScreen();
-      },
-    );
+    if (checkSign()) {
+      return const NavigationScreen();
+    } else {
+      return const LoginScreen();
+    }
   }
 }

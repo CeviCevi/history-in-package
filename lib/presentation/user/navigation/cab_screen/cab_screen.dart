@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/models/place_model/place_model.dart';
 import 'package:pytl_backup/data/models/user_model/user_model.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/domain/services/user_service.dart';
-import 'package:pytl_backup/presentation/cab_screen/widgets/add_place_screen/add_place_screen.dart';
-import 'package:pytl_backup/presentation/game_screen/game_screen.dart';
-import 'package:pytl_backup/presentation/start_screen/start_screen.dart';
-import 'package:pytl_backup/presentation/user_edit_screen/user_edit_screen.dart';
+import 'package:pytl_backup/domain/repository/user_repository.dart';
+import 'package:pytl_backup/domain/services/cache_service.dart';
+import 'package:pytl_backup/presentation/app/start_screen/start_screen.dart';
+import 'package:pytl_backup/presentation/user/game/game_screen/game_screen.dart';
+import 'package:pytl_backup/presentation/user/navigation/cab_screen/widgets/add_place_screen/add_place_screen.dart';
+import 'package:pytl_backup/presentation/user/user_edit_screen/user_edit_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonalCabinetScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _PersonalCabinetScreenState extends State<PersonalCabinetScreen> {
   bool _isLoading = true;
   String? _error;
 
-  final UserService userService = UserService();
+  final UserRepository userService = UserRepository();
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _PersonalCabinetScreenState extends State<PersonalCabinetScreen> {
     }
 
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = CacheService.instance;
       final email = prefs.getString('email');
 
       if (email == null || email.isEmpty) {
@@ -53,7 +54,7 @@ class _PersonalCabinetScreenState extends State<PersonalCabinetScreen> {
 
       final user = await userService.getUserByEmail(email);
 
-      await prefs.setString('login', user.login);
+      await prefs.setString('login', user!.login);
       if (user.imageBit != null) {
         await prefs.setString('image', user.imageBit!);
       } else {
@@ -249,7 +250,7 @@ class _PersonalCabinetScreenState extends State<PersonalCabinetScreen> {
 
                 _infoRow(
                   title: "Мест посещено:",
-                  value: "${_user!.idVisitedPleces?.length ?? 0}",
+                  value: "${_user!.idVisitedPlaces?.length ?? 0}",
                 ),
                 _infoRow(
                   title: "Добрался первым:",

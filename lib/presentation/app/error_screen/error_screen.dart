@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/presentation/start_screen/start_screen.dart';
-import 'package:pytl_backup/presentation/start_screen/widgets/restart_button.dart';
+import 'package:pytl_backup/presentation/app/start_screen/start_screen.dart';
+import 'package:pytl_backup/presentation/app/start_screen/widgets/restart_button.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});

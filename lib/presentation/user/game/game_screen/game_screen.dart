@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/presentation/existing_games_screen/existing_game_screen.dart';
-import 'package:pytl_backup/presentation/room_joined_screen/room_joined_screen.dart';
-import 'package:pytl_backup/presentation/start_game_screen/create_room.dart';
+import 'package:pytl_backup/presentation/user/game/existing_games_screen/existing_game_screen.dart';
+import 'package:pytl_backup/presentation/user/game/room_joined_screen/room_joined_screen.dart';
+import 'package:pytl_backup/presentation/user/game/start_game_screen/create_room.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});

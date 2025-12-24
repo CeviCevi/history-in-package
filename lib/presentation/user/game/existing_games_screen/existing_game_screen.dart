@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pytl_backup/presentation/game_in_progres_screen/game_in_progres_screen.dart';
+import 'package:pytl_backup/presentation/user/game/game_in_progres_screen/game_in_progres_screen.dart';
 // Предполагаем, что GameInProgressScreen импортирован
 // import 'package:pytl_backup/presentation/game_in_progres_screen/game_in_progres_screen.dart';
 

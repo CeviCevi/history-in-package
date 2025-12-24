@@ -5,8 +5,8 @@ import 'package:pytl_backup/data/models/place_model/place_model.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
 import 'package:pytl_backup/domain/services/image_service.dart';
 import 'package:pytl_backup/domain/services/place_service.dart';
+import 'package:pytl_backup/presentation/app/start_screen/start_screen.dart';
 import 'package:pytl_backup/presentation/moderator/edit_place_screen.dart';
-import 'package:pytl_backup/presentation/start_screen/start_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AllPlacesScreen extends StatefulWidget {

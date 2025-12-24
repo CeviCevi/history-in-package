@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/presentation/object_screen/style/text_style.dart';
+import 'package:pytl_backup/presentation/user/object/object_screen/style/text_style.dart';
 
 class ObjectLabelText extends StatelessWidget {
   final String label;

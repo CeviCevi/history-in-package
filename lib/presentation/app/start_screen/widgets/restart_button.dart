@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pytl_backup/presentation/start_screen/styles/text_style/text_style.dart';
+import 'package:pytl_backup/presentation/app/start_screen/styles/text_style/text_style.dart';
 
 class RestartButton extends StatelessWidget {
   final GestureTapCallback? function;

@@ -62,7 +62,7 @@ class _MapScreenState extends State<MapScreen> {
             return const Center(child: CircularProgressIndicator());
           } else {
             // Успешное получение данных
-            final List<PlaceModel> places = snapshot.data!;
+            final List<PlaceModel> places = snapshot.data ?? [];
 
             return FlutterMap(
               mapController: _mapController,

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/models/place_model/place_model.dart';
 import 'package:pytl_backup/data/models/user_model/user_model.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
+import 'package:pytl_backup/domain/repository/user_repository.dart';
+import 'package:pytl_backup/domain/services/cache_service.dart';
 import 'package:pytl_backup/domain/services/image_service.dart';
 import 'package:pytl_backup/domain/services/place_service.dart';
-import 'package:pytl_backup/domain/services/user_service.dart';
-import 'package:pytl_backup/presentation/detail_object_screen/detail_object_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pytl_backup/presentation/user/object/detail_object_screen/detail_object_screen.dart';
 
 class FavScreen extends StatefulWidget {
   const FavScreen({super.key});
@@ -18,7 +18,7 @@ class FavScreen extends StatefulWidget {
 }
 
 class _FavScreenState extends State<FavScreen> {
-  final UserService _userService = UserService();
+  final UserRepository _userService = UserRepository();
 
   List<PlaceModel> _favPlaces = [];
   bool _isLoading = true;
@@ -44,8 +44,7 @@ class _FavScreenState extends State<FavScreen> {
     });
 
     try {
-      final prefs = await SharedPreferences.getInstance();
-      _userEmail = prefs.getString('email');
+      _userEmail = CacheService.instance.getString('email');
 
       final emailToUse = _userEmail ?? "mock@model.com";
 
@@ -53,10 +52,10 @@ class _FavScreenState extends State<FavScreen> {
         throw Exception('Пользователь не авторизован. Email не найден.');
       }
 
-      final UserModel user = await _userService.getUserByEmail(emailToUse);
+      final UserModel? user = await _userService.getUserByEmail(emailToUse);
       _currentUser = user;
 
-      if (user.idSavedPlaces == null || user.idSavedPlaces!.isEmpty) {
+      if (user!.idSavedPlaces == null || user.idSavedPlaces!.isEmpty) {
         setState(() {
           _favPlaces = [];
           _isLoading = false;

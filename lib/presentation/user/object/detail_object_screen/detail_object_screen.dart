@@ -4,20 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/models/place_model/place_model.dart';
 import 'package:pytl_backup/data/models/user_model/user_model.dart'; // Предполагаем наличие UserModel
 import 'package:pytl_backup/data/styles/colors.dart';
+import 'package:pytl_backup/domain/repository/user_repository.dart'; // Добавлен UserService
 import 'package:pytl_backup/domain/services/image_service.dart';
-import 'package:pytl_backup/domain/services/user_service.dart'; // Добавлен UserService
-import 'package:pytl_backup/presentation/comments_screen/comments_screen.dart';
-import 'package:pytl_backup/presentation/object_screen/widgets/actions_menu.dart';
-import 'package:pytl_backup/presentation/object_screen/widgets/comments_button.dart';
-import 'package:pytl_backup/presentation/object_screen/widgets/expandable_facts_menu.dart';
-import 'package:pytl_backup/presentation/object_screen/widgets/object_label_text.dart';
+import 'package:pytl_backup/presentation/user/comments_screen/comments_screen.dart';
+import 'package:pytl_backup/presentation/user/object/object_screen/widgets/actions_menu.dart';
+import 'package:pytl_backup/presentation/user/object/object_screen/widgets/comments_button.dart';
+import 'package:pytl_backup/presentation/user/object/object_screen/widgets/expandable_facts_menu.dart';
+import 'package:pytl_backup/presentation/user/object/object_screen/widgets/object_label_text.dart';
 import 'package:pytl_backup/presentation/widgets/castle_text_field/style/shadow_style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef OnFavoriteRemoved =
-    void Function(
-      int placeId,
-    ); // TODO <- решение не совсекм правильное. так делать не надо
+typedef OnFavoriteRemoved = void Function(int placeId);
+// TODO <- решение не совсекм правильное. так делать не надо
 
 class DetailObjectScreen extends StatefulWidget {
   final OnFavoriteRemoved? onFavoriteRemoved; // Новый параметр
@@ -37,7 +35,7 @@ class DetailObjectScreen extends StatefulWidget {
 }
 
 class _DetailObjectScreenState extends State<DetailObjectScreen> {
-  final UserService _userService = UserService();
+  final UserRepository _userService = UserRepository();
 
   // Состояние загрузки данных пользователя
   bool _isLoading = true;
@@ -69,7 +67,7 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
       setState(() {
         _userModel = user;
         // 3. Проверяем, сохранено ли место
-        _isSaved = user.idSavedPlaces!.contains(widget.place.id);
+        _isSaved = user?.idSavedPlaces!.contains(widget.place.id) ?? false;
         _isLoading = false;
       });
     } catch (e) {

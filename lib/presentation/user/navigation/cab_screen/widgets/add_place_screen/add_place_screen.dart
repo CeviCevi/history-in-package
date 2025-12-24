@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/models/place_model/place_model.dart';
 import 'package:pytl_backup/data/models/user_model/user_model.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
+import 'package:pytl_backup/domain/repository/user_repository.dart';
 import 'package:pytl_backup/domain/services/place_service.dart';
-import 'package:pytl_backup/domain/services/user_service.dart';
 
 class AddPlaceModal extends StatefulWidget {
   final UserModel user;
@@ -21,7 +21,7 @@ class AddPlaceModal extends StatefulWidget {
 class _AddPlaceModalState extends State<AddPlaceModal> {
   final _formKey = GlobalKey<FormState>();
   final PlaceService _placeService = PlaceService();
-  final UserService _userService = UserService();
+  final UserRepository _userService = UserRepository();
 
   final labelController = TextEditingController();
   final addressController = TextEditingController();

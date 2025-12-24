@@ -1,17 +1,20 @@
 // data/models/user_model/user_model.dart
+
 class UserModel {
+  final double id;
   final String login;
   final String email;
   final String password;
   final String? imageBit;
   final List<int>? idSavedPlaces;
   final List<int>? idWins;
-  final List<int>? idVisitedPleces;
+  final List<int>? idVisitedPlaces;
   final List<int>? idMyComments;
   final List<int>? idMyObject;
   final String? role;
 
   const UserModel({
+    required this.id,
     required this.login,
     required this.email,
     required this.password,
@@ -19,24 +22,23 @@ class UserModel {
     this.idMyComments,
     this.idMyObject,
     this.idSavedPlaces,
-    this.idVisitedPleces,
+    this.idVisitedPlaces,
     this.idWins,
     this.imageBit,
   });
 
-  // Конвертация из JSON
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      login: json['login'] as String,
-      email: json['email'] as String,
-      password: json['password'] as String,
-      imageBit: json['image_bit'] as String?,
-      role: json['role'] as String? ?? "user_unsign",
+      id: (json['id'] as num).toDouble(),
+      login: json['login'],
+      email: json['email'],
+      password: json['password'],
+      imageBit: json['image_bit'],
       idSavedPlaces: json['id_saved_places'] != null
           ? List<int>.from(json['id_saved_places'])
           : null,
       idWins: json['id_wins'] != null ? List<int>.from(json['id_wins']) : null,
-      idVisitedPleces: json['id_visited_places'] != null
+      idVisitedPlaces: json['id_visited_places'] != null
           ? List<int>.from(json['id_visited_places'])
           : null,
       idMyComments: json['id_my_comments'] != null
@@ -45,23 +47,8 @@ class UserModel {
       idMyObject: json['id_my_object'] != null
           ? List<int>.from(json['id_my_object'])
           : null,
+      role: json['role'],
     );
-  }
-
-  // Конвертация в JSON (snake_case для бэкенда)
-  Map<String, dynamic> toJson() {
-    return {
-      'login': login,
-      'email': email,
-      'password': password,
-      'image_bit': imageBit,
-      'role': role,
-      'id_saved_places': idSavedPlaces,
-      'id_wins': idWins,
-      'id_visited_places': idVisitedPleces,
-      'id_my_comments': idMyComments,
-      'id_my_object': idMyObject,
-    };
   }
 
   // Копирование с изменениями
@@ -78,6 +65,7 @@ class UserModel {
     List<int>? idMyObject,
   }) {
     return UserModel(
+      id: id,
       login: login ?? this.login,
       email: email ?? this.email,
       password: password ?? this.password,
@@ -85,7 +73,7 @@ class UserModel {
       role: role ?? this.role,
       idSavedPlaces: idSavedPlaces ?? this.idSavedPlaces,
       idWins: idWins ?? this.idWins,
-      idVisitedPleces: idVisitedPleces ?? this.idVisitedPleces,
+      idVisitedPlaces: idVisitedPleces ?? idVisitedPlaces,
       idMyComments: idMyComments ?? this.idMyComments,
       idMyObject: idMyObject ?? this.idMyObject,
     );
@@ -97,13 +85,13 @@ class UserModel {
 
   int get savedPlacesCount => idSavedPlaces?.length ?? 0;
 
-  int get visitedPlacesCount => idVisitedPleces?.length ?? 0;
+  int get visitedPlacesCount => idVisitedPlaces?.length ?? 0;
 
   bool isPlaceSaved(int placeId) {
     return idSavedPlaces?.contains(placeId) ?? false;
   }
 
   bool isPlaceVisited(int placeId) {
-    return idVisitedPleces?.contains(placeId) ?? false;
+    return idVisitedPlaces?.contains(placeId) ?? false;
   }
 }

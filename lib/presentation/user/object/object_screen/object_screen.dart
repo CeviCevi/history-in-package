@@ -4,8 +4,8 @@ import 'package:pytl_backup/data/dto/object_dto.dart';
 import 'package:pytl_backup/data/models/place_model/mock/place_model_mock.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
 import 'package:pytl_backup/domain/services/place_service.dart';
-import 'package:pytl_backup/presentation/detail_object_screen/detail_object_screen.dart';
-import 'package:pytl_backup/presentation/map_screen/map_screen.dart';
+import 'package:pytl_backup/presentation/user/navigation/map_screen/map_screen.dart';
+import 'package:pytl_backup/presentation/user/object/detail_object_screen/detail_object_screen.dart';
 import 'package:pytl_backup/presentation/widgets/castle_text_field/castle_text_field.dart';
 
 class ObjectScreen extends StatefulWidget {

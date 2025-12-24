@@ -5,15 +5,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:pytl_backup/data/dto/object_dto.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/presentation/start_screen/start_screen.dart';
+import 'package:pytl_backup/domain/app/app_supabase.dart';
+import 'package:pytl_backup/domain/services/cache_service.dart';
+import 'package:pytl_backup/presentation/app/start_screen/start_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    tools: const [...DevicePreview.defaultTools],
-    builder: (context) => const MainApp(),
-  ),
-);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheService.instance.init();
+  await Supabase.initialize(url: appUrl, anonKey: appApiKey);
+
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      tools: const [...DevicePreview.defaultTools],
+      builder: (context) => const MainApp(),
+    ),
+  );
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});

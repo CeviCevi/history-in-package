@@ -3,8 +3,8 @@ import 'package:pytl_backup/data/models/comment_model.dart';
 import 'package:pytl_backup/data/models/user_model/mock/user_model_mock.dart';
 import 'package:pytl_backup/data/models/user_model/user_model.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
+import 'package:pytl_backup/domain/repository/user_repository.dart';
 import 'package:pytl_backup/domain/services/comment_service.dart';
-import 'package:pytl_backup/domain/services/user_service.dart';
 
 class CommentsScreen extends StatefulWidget {
   final int objectId;
@@ -216,7 +216,7 @@ class _CommentBubble extends StatelessWidget {
   final String emailUserInSystem;
   final Function(int) onDelete;
 
-  final UserService _userService = UserService();
+  final UserRepository _userService = UserRepository();
 
   _CommentBubble({
     required this.comment,
@@ -224,7 +224,7 @@ class _CommentBubble extends StatelessWidget {
     required this.onDelete,
   });
 
-  Future<UserModel> _loadCurrentUserData() async {
+  Future<UserModel?> _loadCurrentUserData() async {
     try {
       return await _userService.getUserByEmail(comment.creatorEmail);
     } catch (e) {
@@ -268,7 +268,7 @@ class _CommentBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMe = comment.creatorEmail == emailUserInSystem;
 
-    Widget commentContent = FutureBuilder<UserModel>(
+    Widget commentContent = FutureBuilder<UserModel?>(
       future: _loadCurrentUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

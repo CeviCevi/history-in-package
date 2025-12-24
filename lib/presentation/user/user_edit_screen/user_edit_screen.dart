@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pytl_backup/data/models/user_model/user_model.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/domain/services/image_service.dart';
-import 'package:pytl_backup/domain/services/user_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pytl_backup/domain/repository/user_repository.dart';
+import 'package:pytl_backup/domain/services/cache_service.dart';
 
 class UserEditScreen extends StatefulWidget {
   final UserModel user;
@@ -22,9 +21,9 @@ class UserEditScreen extends StatefulWidget {
 class _UserEditScreenState extends State<UserEditScreen> {
   final TextEditingController loginController = TextEditingController();
   late String email;
-  String? base64Image;
+  String? imageLink;
 
-  final UserService _userService = UserService();
+  final UserRepository _userService = UserRepository();
   bool _isLoading = false;
 
   @override
@@ -36,7 +35,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
   void _loadUserFromWidget() {
     loginController.text = widget.user.login;
     email = widget.user.email;
-    base64Image = widget.user.imageBit;
+    imageLink = widget.user.imageBit;
   }
 
   Future<void> _saveChangesToBackend() async {
@@ -50,21 +49,22 @@ class _UserEditScreenState extends State<UserEditScreen> {
       final updatedUser = UserModel(
         login: loginController.text,
         email: email,
-        imageBit: base64Image,
+        imageBit: imageLink,
 
         // --- Сохраняем поля, которые не редактировались ---
+        id: widget.user.id,
         password: widget.user.password,
         role: widget.user.role,
         idSavedPlaces: widget.user.idSavedPlaces,
         idWins: widget.user.idWins,
-        idVisitedPleces: widget.user.idVisitedPleces,
+        idVisitedPlaces: widget.user.idVisitedPlaces,
         idMyComments: widget.user.idMyComments,
         idMyObject: widget.user.idMyObject,
       );
 
       await _userService.updateUser(updatedUser);
 
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = CacheService.instance;
       await prefs.setString('login', updatedUser.login);
       if (updatedUser.imageBit != null) {
         await prefs.setString("image", updatedUser.imageBit!);
@@ -102,11 +102,11 @@ class _UserEditScreenState extends State<UserEditScreen> {
     final bytes = result.files.first.bytes;
 
     if (bytes != null) {
-      base64Image = base64Encode(bytes);
+      imageLink = base64Encode(bytes);
     } else {
       final file = File(result.files.first.path!);
       final fileBytes = await file.readAsBytes();
-      base64Image = base64Encode(fileBytes);
+      imageLink = base64Encode(fileBytes);
     }
 
     setState(() {});
@@ -114,9 +114,6 @@ class _UserEditScreenState extends State<UserEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final imageService = Base64ImageService(base64Image ?? '');
-    final bool hasImage = imageService.isValidBase64();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Редактирование профиля"),
@@ -134,14 +131,8 @@ class _UserEditScreenState extends State<UserEditScreen> {
               child: CircleAvatar(
                 radius: 55,
                 backgroundColor: Colors.grey.shade300,
-                child: hasImage
-                    ? ClipOval(
-                        child: imageService.getImageWidget(
-                          width: 110,
-                          height: 110,
-                          fit: BoxFit.cover,
-                        ),
-                      )
+                child: imageLink != null
+                    ? ClipOval(child: Image.network(imageLink!))
                     : const Icon(Icons.add_a_photo, size: 36),
               ),
             ),

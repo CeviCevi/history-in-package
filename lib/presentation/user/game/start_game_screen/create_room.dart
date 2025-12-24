@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pytl_backup/data/models/place_model/mock/place_model_mock.dart';
 import 'package:pytl_backup/data/models/place_model/place_model.dart';
-import 'package:pytl_backup/presentation/game_in_progres_screen/game_in_progres_screen.dart';
+import 'package:pytl_backup/presentation/user/game/game_in_progres_screen/game_in_progres_screen.dart';
 // import 'package:pytl_backup/data/styles/colors.dart'; // <-- Больше не нужно, определяем цвет ниже
 
 // 1. Создаем приватный класс для пользователя

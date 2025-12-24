@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pytl_backup/data/styles/colors.dart';
-import 'package:pytl_backup/presentation/cab_screen/cab_screen.dart';
-import 'package:pytl_backup/presentation/fav_screen/fav_screen.dart';
-import 'package:pytl_backup/presentation/object_screen/object_screen.dart';
+import 'package:pytl_backup/presentation/user/navigation/cab_screen/cab_screen.dart';
+import 'package:pytl_backup/presentation/user/navigation/fav_screen/fav_screen.dart';
+import 'package:pytl_backup/presentation/user/object/object_screen/object_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
